@@ -4,4 +4,13 @@
 
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-chrome-cli list tabs | grep $@ | $__dir/chrome-focus-tab
+error() {
+    echo "$1" 1>&2
+    exit 1
+}
+
+result=$(chrome-cli list tabs | grep $@)
+
+[ $? -eq 0 ] || error "No match"
+
+$__dir/chrome-focus-tab <<<$result
