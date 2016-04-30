@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Read stdout from `chrome-cli list tabs` and focus tab identified by first line.
+
+head -n 1 | perl -p -e 's,^\[([0-9]+):([0-9]+).+,\1 \2,' | (
+    read window_id tab_id
+    chrome-cli activate -t $tab_id
+    window_index=$(chrome-cli list windows | grep -nF "[$window_id]" | cut -d : -f 1)
+    osascript - <<EOF
+tell application "System Events" to tell process "Google Chrome"
+    perform action "AXRaise" of window $window_index
+    set frontmost to true
+end tell
+EOF
+)

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Focus tab matching regex
+
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+chrome-cli list tabs | grep $@ | $__dir/chrome-focus-tab
