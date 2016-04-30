@@ -13,4 +13,4 @@ result=$(chrome-cli list tabs | grep $@)
 
 [ $? -eq 0 ] || error "No match"
 
-$__dir/chrome-focus-tab <<<$result
+$__dir/chrome-focus <<<$result
